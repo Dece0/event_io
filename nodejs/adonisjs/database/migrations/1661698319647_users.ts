@@ -23,15 +23,16 @@ export default class extends BaseSchema {
         .notNullable()
       table.string('first_name', 100).notNullable()
       table.string('last_name', 100).notNullable()
-      table.string('email', 100).notNullable().unique()
+      table.string('email', 255).notNullable().unique()
       table.string('phone', 13).notNullable().unique()
       table.date('birthdate').notNullable()
-      table.string('password').notNullable()
+      table.string('password', 180).notNullable()
+      table.string('remember_me_token').nullable()
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */
-      table.timestamp('created_at', { useTz: true })
-      table.timestamp('updated_at', { useTz: true })
+      table.timestamp('created_at', { useTz: true }).notNullable()
+      table.timestamp('updated_at', { useTz: true }).notNullable()
     })
   }
 

@@ -4,6 +4,7 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import User from 'App/Models/User'
 import { UserRole } from 'App/Types/types'
 import CreateUserValidator from 'App/Validators/CreateUserValidator'
+import LoginUserValidator from 'App/Validators/LoginUserValidator'
 
 export default class AuthController {
   public async signUp({ request, response }: HttpContextContract) {
@@ -25,5 +26,24 @@ export default class AuthController {
     const user = await newUser.save()
 
     response.ok(user)
+  }
+
+  public async signIn({ auth, request, response }: HttpContextContract) {
+    const { email, password } = await request.validate(LoginUserValidator)
+
+    try {
+      return auth.use('api').attempt(email, password, {
+        expiresIn: '30 mins',
+      })
+    } catch (error) {
+      return response.unauthorized('Invalid credentials')
+    }
+  }
+
+  public async signOut({ auth }: HttpContextContract) {
+    await auth.use('api').revoke()
+    return {
+      revoked: true,
+    }
   }
 }
