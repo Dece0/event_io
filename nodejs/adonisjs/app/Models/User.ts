@@ -1,7 +1,8 @@
 import { DateTime } from 'luxon'
 import Hash from '@ioc:Adonis/Core/Hash'
-import { BaseModel, column, beforeSave } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, beforeSave, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import { Sex, UserRole } from 'App/Types/types'
+import Event from './Event'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -13,10 +14,10 @@ export default class User extends BaseModel {
   @column()
   public sex: string
 
-  @column({ columnName: 'first_name' })
+  @column({ columnName: 'first_name', serializeAs: 'firstName' })
   public firstName: string
 
-  @column({ columnName: 'last_name' })
+  @column({ columnName: 'last_name', serializeAs: 'lastName' })
   public lastName: string
 
   @column()
@@ -28,13 +29,23 @@ export default class User extends BaseModel {
   @column.date()
   public birthdate: DateTime
 
-  @column()
+  @column({ serializeAs: null })
   public password: string
 
-  @column.dateTime({ columnName: 'created_at', autoCreate: true })
+  @hasMany(() => Event, {
+    foreignKey: 'created_by',
+  })
+  public events: HasMany<typeof Event>
+
+  @column.dateTime({ columnName: 'created_at', autoCreate: true, serializeAs: 'createdAt' })
   public createdAt: DateTime
 
-  @column.dateTime({ columnName: 'updated_at', autoCreate: true, autoUpdate: true })
+  @column.dateTime({
+    columnName: 'updated_at',
+    autoCreate: true,
+    autoUpdate: true,
+    serializeAs: 'updatedAt',
+  })
   public updatedAt: DateTime
 
   @beforeSave()

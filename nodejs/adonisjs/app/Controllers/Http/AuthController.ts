@@ -21,7 +21,7 @@ export default class AuthController {
       sex,
       birthdate,
       password,
-      role: UserRole.EMPLOYEE,
+      role: UserRole.ORGANIZER,
     })
     const user = await newUser.save()
 

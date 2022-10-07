@@ -28,5 +28,11 @@ Route.group(() => {
 
   Route.group(() => {
     Route.post('/auth/sign-out', 'AuthController.signOut')
+    Route.get('/events', 'EventsController.index')
+    Route.post('/events', 'EventsController.store')
+    Route.get('/events/:id', 'EventsController.show')
+    Route.put('/events/:id', 'EventsController.update')
+    Route.delete('/events/:id', 'EventsController.destroy')
+    Route.post('/events/:id/image', 'EventsController.storeImage')
   }).middleware('auth')
 }).prefix('/api/v1')
