@@ -5,17 +5,20 @@ import CreateEventValidator from 'App/Validators/CreateEventValidator'
 
 export default class EventsController {
   public async index({ request }: HttpContextContract) {
-    const limit = 20
+    const limit = 10
     const page = request.input('page', 1)
     const events = await Event.query()
       .where('from', '>', new Date())
+      .withCount('positions', (query) => {
+        query.as('numberOfPositions')
+      })
       .orderBy('from', 'desc')
       .paginate(page, limit)
     return events
   }
 
   public async store({ auth, bouncer, request, response }: HttpContextContract) {
-    await bouncer.authorize('canHandleEvent')
+    await bouncer.authorize('canHandle')
 
     const user = auth.use('api').user
 
@@ -34,7 +37,7 @@ export default class EventsController {
   }
 
   public async storeImage({ auth, bouncer, request, response, params }: HttpContextContract) {
-    await bouncer.authorize('canHandleEvent')
+    await bouncer.authorize('canHandle')
 
     const user = auth.use('api').user
     if (!user) {
@@ -64,13 +67,14 @@ export default class EventsController {
   }
 
   public async show({ params }: HttpContextContract) {
-    const event = await Event.query().select('*').where('id', '=', params.id).firstOrFail()
+    const id = params.id
+    const event = await Event.query().select('*').where('id', '=', id).firstOrFail()
 
     return event
   }
 
   public async update({ auth, bouncer, request, response, params }: HttpContextContract) {
-    await bouncer.authorize('canHandleEvent')
+    await bouncer.authorize('canHandle')
 
     const user = auth.use('api').user
     if (!user) {
@@ -90,7 +94,7 @@ export default class EventsController {
   }
 
   public async destroy({ auth, bouncer, response, params }: HttpContextContract) {
-    await bouncer.authorize('canHandleEvent')
+    await bouncer.authorize('canHandle')
 
     const user = auth.use('api').user
     if (!user) {

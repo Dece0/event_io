@@ -34,5 +34,11 @@ Route.group(() => {
     Route.put('/events/:id', 'EventsController.update')
     Route.delete('/events/:id', 'EventsController.destroy')
     Route.post('/events/:id/image', 'EventsController.storeImage')
+    Route.resource('events.positions', 'PositionsController').apiOnly()
+    Route.post('/events/:event_id/positions/:position_id/employees', 'EmployeesController.store')
+    Route.delete(
+      '/events/:event_id/positions/:position_id/employees/:user_id',
+      'EmployeesController.destroy'
+    )
   }).middleware('auth')
 }).prefix('/api/v1')

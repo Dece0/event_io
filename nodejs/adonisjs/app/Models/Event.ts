@@ -1,8 +1,15 @@
 import { DateTime } from 'luxon'
-import { BaseModel, BelongsTo, belongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, belongsTo, column, HasMany, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import User from './User'
+import Position from './Position'
 
 export default class Event extends BaseModel {
+  public serializeExtras() {
+    return {
+      numberOfPositions: this.$extras.numberOfPositions,
+    }
+  }
+
   @column({ isPrimary: true })
   public id: number
 
@@ -41,6 +48,9 @@ export default class Event extends BaseModel {
 
   @column.dateTime({ columnName: 'created_at', autoCreate: true, serializeAs: 'createdAt' })
   public createdAt: DateTime
+
+  @hasMany(() => Position, { foreignKey: 'eventId' })
+  public positions: HasMany<typeof Position>
 
   @column.dateTime({
     columnName: 'updated_at',

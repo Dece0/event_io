@@ -32,7 +32,7 @@ import { UserRole } from 'App/Types/types'
 | NOTE: Always export the "actions" const from this file
 |****************************************************************
 */
-export const { actions } = Bouncer.define('canHandleEvent', (user: User) => {
+export const { actions } = Bouncer.define('canHandle', (user: User) => {
   const roles = [UserRole.ADMINISTRATOR, UserRole.ORGANIZER]
   const hasRole = roles.some((role) => role === user.role)
   return hasRole

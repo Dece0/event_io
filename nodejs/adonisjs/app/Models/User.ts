@@ -1,8 +1,17 @@
 import { DateTime } from 'luxon'
 import Hash from '@ioc:Adonis/Core/Hash'
-import { BaseModel, column, beforeSave, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
-import { Sex, UserRole } from 'App/Types/types'
+import {
+  BaseModel,
+  column,
+  beforeSave,
+  hasMany,
+  HasMany,
+  manyToMany,
+  ManyToMany,
+} from '@ioc:Adonis/Lucid/Orm'
+import { UserRole } from 'App/Types/types'
 import Event from './Event'
+import Position from './Position'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -36,6 +45,9 @@ export default class User extends BaseModel {
     foreignKey: 'created_by',
   })
   public events: HasMany<typeof Event>
+
+  @manyToMany(() => Position)
+  public positions: ManyToMany<typeof Position>
 
   @column.dateTime({ columnName: 'created_at', autoCreate: true, serializeAs: 'createdAt' })
   public createdAt: DateTime
