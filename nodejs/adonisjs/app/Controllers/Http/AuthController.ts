@@ -13,17 +13,32 @@ export default class AuthController {
     )
 
     const newUser = new User()
-    newUser.fill({
-      firstName,
-      lastName,
-      email,
-      phone,
-      sex,
-      birthdate,
-      password,
-      role: UserRole.ORGANIZER,
-    })
-    const user = await newUser.save()
+    const user = await newUser
+      .fill({
+        firstName,
+        lastName,
+        email,
+        phone,
+        sex,
+        birthdate,
+        password,
+        role: UserRole.EMPLOYEE,
+      })
+      .save()
+
+    // const hashedPassword = await Hash.make(password)
+    // const userIds = await Database.table<number>('users').insert({
+    //   first_name: firstName,
+    //   last_name: lastName,
+    //   email,
+    //   phone,
+    //   sex,
+    //   birthdate: birthdate.toISODate(),
+    //   password: hashedPassword,
+    //   updated_at: DateTime.now().toFormat('yyyy-MM-dd HH:mm:ss'),
+    //   role: UserRole.EMPLOYEE,
+    // })
+    // const userId = userIds[0]
 
     response.ok(user)
   }

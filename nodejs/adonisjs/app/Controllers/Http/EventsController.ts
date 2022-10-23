@@ -5,14 +5,15 @@ import CreateEventValidator from 'App/Validators/CreateEventValidator'
 
 export default class EventsController {
   public async index({ request }: HttpContextContract) {
-    const limit = 10
+    const limit = 5
     const page = request.input('page', 1)
     const events = await Event.query()
       .where('from', '>', new Date())
+      .andWhere('isPrivate', '=', false)
       .withCount('positions', (query) => {
         query.as('numberOfPositions')
       })
-      .orderBy('from', 'desc')
+      .orderBy('from', 'asc')
       .paginate(page, limit)
     return events
   }

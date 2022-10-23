@@ -1,13 +1,14 @@
 @hostname = localhost
 @port = 3333
 @baseUrl = http://{{hostname}}:{{port}}
+@version = v1
 
 ###
 ### Auth
 ###
 
 ### Register
-POST {{baseUrl}}/api/v1/auth/sign-up  HTTP/1.1
+POST {{baseUrl}}/api/{{version}}/auth/sign-up  HTTP/1.1
 Content-Type: application/json
 
 {
@@ -23,11 +24,11 @@ Content-Type: application/json
 
 ### Sign in
 # @name signIn
-POST {{baseUrl}}/api/v1/auth/sign-in  HTTP/1.1
+POST {{baseUrl}}/api/{{version}}/auth/sign-in  HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "mb@gmail.com",
+  "email": "svoradov@gmail.com",
   "password": "hehe"
 }
 
@@ -36,7 +37,7 @@ Content-Type: application/json
 @authToken = Bearer {{token}}
 
 ### Sign out
-POST {{baseUrl}}/api/v1/auth/sign-out  HTTP/1.1
+POST {{baseUrl}}/api/{{version}}/auth/sign-out  HTTP/1.1
 Authorization: {{authToken}}
 
 ###
@@ -44,11 +45,11 @@ Authorization: {{authToken}}
 ###
 
 ### Show events
-GET {{baseUrl}}/api/v1/events  HTTP/1.1
+GET {{baseUrl}}/api/{{version}}/events?page=1  HTTP/1.1
 Authorization: {{authToken}}
 
 ### Store event
-POST {{baseUrl}}/api/v1/events  HTTP/1.1
+POST {{baseUrl}}/api/{{version}}/events  HTTP/1.1
 Content-Type: application/json
 Authorization: {{authToken}}
 
@@ -62,11 +63,11 @@ Authorization: {{authToken}}
 }
 
 ### Show event
-GET {{baseUrl}}/api/v1/events/1  HTTP/1.1
+GET {{baseUrl}}/api/{{version}}/events/1  HTTP/1.1
 Authorization: {{authToken}}
 
 ### Update event
-PUT {{baseUrl}}/api/v1/events/1  HTTP/1.1
+PUT {{baseUrl}}/api/{{version}}/events/1  HTTP/1.1
 Content-Type: application/json
 Authorization: {{authToken}}
 
@@ -80,7 +81,7 @@ Authorization: {{authToken}}
 }
 
 ### Delete events
-DELETE  {{baseUrl}}/api/v1/events/2  HTTP/1.1
+DELETE  {{baseUrl}}/api/{{version}}/events/2  HTTP/1.1
 Authorization: {{authToken}}
 
 ###
@@ -88,43 +89,45 @@ Authorization: {{authToken}}
 ###
 
 ### Show event positions
-GET {{baseUrl}}/api/v1/events/1/positions  HTTP/1.1
+GET {{baseUrl}}/api/{{version}}/events/1/positions  HTTP/1.1
 Authorization: {{authToken}}
 
 ### Store event position
-POST {{baseUrl}}/api/v1/events/1/positions  HTTP/1.1
+POST {{baseUrl}}/api/{{version}}/events/6/positions  HTTP/1.1
 Content-Type: application/json
 Authorization: {{authToken}}
 
 {
-  "title": "Barman",
-  "description": "Čapovanie piva a obsluha baru",
-  "salary": 8.50,
-  "maxEmployees": 10,
-  "from": "2022-11-01T15:00",
-  "to": "2022-11-02T04:00"
+  "title": "Čašníčka",
+  "description": "Objednávanie a obsluhovanie hostí",
+  "sexPreference": "none",
+  "salary": 4.50,
+  "maxEmployees": 12,
+  "from": "2022-12-10T18:00",
+  "to": "2022-12-11T03:00"
 }
 
 ### Show event position
-GET {{baseUrl}}/api/v1/events/1/positions/1  HTTP/1.1
+GET {{baseUrl}}/api/{{version}}/events/1/positions/1  HTTP/1.1
 Authorization: {{authToken}}
 
 ### Update event position
-PUT {{baseUrl}}/api/v1/events/1/positions/2  HTTP/1.1
+PUT {{baseUrl}}/api/{{version}}/events/6/positions/10  HTTP/1.1
 Content-Type: application/json
 Authorization: {{authToken}}
 
 {
-  "title": "SBS",
-  "description": "Kontrola areálu a vstupu do areálu",
-  "salary": 5.50,
-  "maxEmployees": 30,
-  "from": "2022-11-01T10:00",
-  "to": "2022-11-02T06:00"
+  "title": "Čašníčka",
+  "description": "Objednávanie a obsluhovanie hostí",
+  "sexPreference": "none",
+  "salary": 4.50,
+  "maxEmployees": 15,
+  "from": "2022-12-10T18:00",
+  "to": "2022-12-11T03:00"
 }
 
 ### Delete event position
-DELETE {{baseUrl}}/api/v1/events/1/positions/1  HTTP/1.1
+DELETE {{baseUrl}}/api/{{version}}/events/1/positions/1  HTTP/1.1
 Authorization: {{authToken}}
 
 ###
@@ -132,7 +135,7 @@ Authorization: {{authToken}}
 ###
 
 ### Store employee
-POST {{baseUrl}}/api/v1/events/1/positions/1/employees  HTTP/1.1
+POST {{baseUrl}}/api/{{version}}/events/1/positions/1/employees  HTTP/1.1
 Content-Type: application/json
 Authorization: {{authToken}}
 
@@ -141,5 +144,5 @@ Authorization: {{authToken}}
 }
 
 ### Delete employee
-POST {{baseUrl}}/api/v1/events/1/positions/1/employees/1  HTTP/1.1
+POST {{baseUrl}}/api/{{version}}/events/1/positions/1/employees/1  HTTP/1.1
 Authorization: {{authToken}}
