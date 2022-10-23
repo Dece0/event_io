@@ -1,5 +1,6 @@
 import { schema, CustomMessages } from '@ioc:Adonis/Core/Validator'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import { SexPreference } from 'App/Types/types'
 
 export default class CreatePositionValidator {
   constructor(protected ctx: HttpContextContract) {}
@@ -26,6 +27,7 @@ export default class CreatePositionValidator {
   public schema = schema.create({
     title: schema.string(),
     description: schema.string(),
+    sexPreference: schema.enum(Object.values(SexPreference)),
     salary: schema.number(),
     maxEmployees: schema.number(),
     from: schema.date(),

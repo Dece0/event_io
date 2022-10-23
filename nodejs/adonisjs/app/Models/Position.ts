@@ -1,5 +1,4 @@
 import {
-  afterFind,
   BaseModel,
   belongsTo,
   BelongsTo,
@@ -7,6 +6,7 @@ import {
   manyToMany,
   ManyToMany,
 } from '@ioc:Adonis/Lucid/Orm'
+import { SexPreference } from 'App/Types/types'
 import { DateTime } from 'luxon'
 import Event from './Event'
 import User from './User'
@@ -26,6 +26,9 @@ export default class Position extends BaseModel {
 
   @column()
   public description: string
+
+  @column({ columnName: 'sex_preference', serializeAs: 'sexPreference' })
+  public sexPreference: SexPreference
 
   @column()
   public salary: number
