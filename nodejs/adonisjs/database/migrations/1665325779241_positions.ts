@@ -1,4 +1,5 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
+import { SexPreference } from 'App/Types/types'
 
 export default class extends BaseSchema {
   protected tableName = 'positions'
@@ -8,6 +9,13 @@ export default class extends BaseSchema {
       table.increments('id')
       table.string('title', 150).notNullable()
       table.string('description', 255).notNullable()
+      table
+        .enum('sex_preference', Object.values(SexPreference), {
+          useNative: true,
+          enumName: 'sex_preference',
+          existingType: false,
+        })
+        .notNullable()
       table.decimal('salary', 4, 2).notNullable()
       table.tinyint('max_employees').notNullable()
       table.timestamp('from').notNullable()
